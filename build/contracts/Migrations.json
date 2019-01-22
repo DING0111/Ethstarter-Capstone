@@ -1375,12 +1375,12 @@
     "1548061706828": {
       "events": {},
       "links": {},
-      "address": "0x9de2Ad974C341E08B5Cf706EcB58CBDc7ce22BCe",
-      "transactionHash": "0x44fd2c2ddcd77f615ca39cc96fde4666e9e54cf446e2e9e265c9817a8974306a"
+      "address": "0x8d37750Cd4d9CcB1afb2ddaeb382a11eDa714Bd5",
+      "transactionHash": "0x3e0f166c543fde4414d17ac7f9c23ff2befd6047221aaa920e2258045d20494c"
     }
   },
   "schemaVersion": "3.0.0",
-  "updatedAt": "2019-01-21T15:22:29.998Z",
+  "updatedAt": "2019-01-22T07:48:44.360Z",
   "devdoc": {
     "methods": {}
   },

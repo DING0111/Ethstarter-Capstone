@@ -88,11 +88,14 @@ App = {
         var id = project[0];
         var title = project[1];
         var description = project[2];
-        var target = project[3] / 1000;
-        var currentValue = project[4] / 1000;
+        var urlName = project[3];
+        var target = project[4] / 1000;
+        var currentValue = project[5] / 1000;
+        console.log("image " + id + " is " + urlName);
 
+        // var testURL = 'url("https://images.pexels.com/photos/345415/pexels-photo-345415.jpeg?cs=srgb&dl=action-air-balance-345415.jpg&fm=jpg")'
         // Append each project html elements to projectLabel
-        var projectsListing = '<div style="margin: 10px; border: 5px solid red"><h1>' + id + title + '</h1><h2>' + currentValue + '/'  + target + '</h2><h2>target</h2><form onSubmit="App.contributeToProject(); return false;"><input required step=".01" id=' + id + 'input' + ' name="voteNumber" type="number"><button id=' + id + ' class="btn btn-primary">Vote Now</button></form></div>'
+        var projectsListing = '<div  style="width: 100%; min-height: 100vh; height: 100vh; background-position: center; background-repeat: no-repeat; background-size: cover; background-image: url(\' '+ urlName + ' \')";><h1 style="text-align: center; padding-top: 40%; "><div style="border: 2px solid black; padding: 20px 40px 20px 40px; background-color: rgba(255,255,255,0.8); width: 40%; margin:auto;">' + title + '</div></h1></div><div style="margin: 10px; border: 5px solid red; width: 100%; min-height: 60vh; height: 60vh; background-position: center; background-repeat: no-repeat; background-size: cover; background-image: url(\' '+ urlName + ' \')";><h1>' + id + title + '</h1><h2>' + currentValue + '/'  + target + '</h2><h2>target</h2><form onSubmit="App.contributeToProject(); return false;"><input required step=".01" id=' + id + 'input' + ' name="voteNumber" type="number"><button id=' + id + ' class="btn btn-primary">Vote Now</button></form></div>'
         projectLabel.append(projectsListing);
         });
       }
@@ -113,11 +116,12 @@ App = {
     var targetInput = $('#targetInput').val();
     targetInput *= 1000;
     var urlInput = $('#urlInput').val();
+    console.log(urlInput);
     
     // Deploy contract
     App.contracts.Ethstarter.deployed().then(function(instance) {
       // Call addProject function
-      return instance.addProject(titleInput, descriptionInput, targetInput);
+      return instance.addProject(titleInput, descriptionInput, urlInput, targetInput);
     }).then(function(result) {
       // Hide content while transaction is being processed
       $("#content").hide();

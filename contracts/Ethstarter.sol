@@ -6,6 +6,7 @@ contract Ethstarter {
         uint id;
         string title;
         string description;
+        string url;
         uint target;
         uint currentValue;
     }
@@ -21,27 +22,27 @@ contract Ethstarter {
     
     // Constructor which initialises 6 Default projects
     constructor() public payable {
-        addDefaultProject("3D Printed Shoes", "Powered by SLA Technology, these customised 3D Printed shoes are flexible, comfortable and ergonomic.", 150000);
-        addDefaultProject("Self-Heating Earl Grey Tea", "Just add cool water and the we'll settle the rest for you, delivering a warm cup of decadent earl grey milk tea.", 200000);
-        addDefaultProject("Solar Powered Scooters", "Green Eco-friendly Scooters to bring you just where you want", 100000);
+        addDefaultProject("3D Printed Shoes", "Powered by SLA Technology, these customised 3D Printed shoes are flexible, comfortable and ergonomic.", "https://images.pexels.com/photos/345415/pexels-photo-345415.jpeg?cs=srgb&dl=action-air-balance-345415.jpg&fm=jpg", 150000);
+        addDefaultProject("Self-Heating Earl Grey Tea", "Just add cool water and the we'll settle the rest for you, delivering a warm cup of decadent earl grey milk tea.", "https://images.pexels.com/photos/229493/pexels-photo-229493.jpeg?cs=srgb&dl=bowl-caffeine-cooking-229493.jpg&fm=jpg", 200000);
+        addDefaultProject("Solar Powered Scooters", "Green Eco-friendly Scooters to bring you just where you want", "https://images.pexels.com/photos/1731751/pexels-photo-1731751.jpeg?cs=srgb&dl=close-up-handlebar-scooter-1731751.jpg&fm=jpg", 100000);
     }
     
     // Function for users to create new project
-    function addProject(string memory _title, string memory _description, uint _target) public {
+    function addProject(string memory _title, string memory _description, string memory _url, uint _target) public {
         // Increment number of projects by one
         projectsCounter += 1;
         // Create project and store it in the mapping of projectIds to project
-        projects[projectsCounter] = Project(projectsCounter, _title, _description, _target, 0);
+        projects[projectsCounter] = Project(projectsCounter, _title, _description, _url, _target, 0);
         // Emit event to trigger reloading of page
         emit newAugmentation(projectsCounter);         
     }
 
     // Fucntion for initialization of default projects
-    function addDefaultProject(string memory _title, string memory _description, uint _target) public {
+    function addDefaultProject(string memory _title, string memory _description, string memory _url, uint _target) public {
         // Increment number of projects by one
         projectsCounter += 1;
         // Create Project and store it in the mapping o projectIds to project
-        projects[projectsCounter] = Project(projectsCounter, _title, _description, _target, 0);              
+        projects[projectsCounter] = Project(projectsCounter, _title, _description, _url, _target, 0);              
     }
     
     function contribute(uint _projectId, uint _contributionAmount) public payable {        
