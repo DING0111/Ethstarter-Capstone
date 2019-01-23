@@ -20,11 +20,12 @@ contract Ethstarter {
     // Create event that takes in projectId for either creation of new project by user or contribution to project. This event will trigger the reloading of page to update content
     event newAugmentation(uint indexed _projectId);
     
-    // Constructor which initialises 6 Default projects
+    // Constructor which initialises 4 Default projects
     constructor() public payable {
-        addDefaultProject("3D Printed Shoes", "Powered by SLA Technology, these customised 3D Printed shoes are flexible, comfortable and ergonomic.", "https://images.pexels.com/photos/345415/pexels-photo-345415.jpeg?cs=srgb&dl=action-air-balance-345415.jpg&fm=jpg", 150000);
+        addDefaultProject("3D Printed Shoes", "Flexible and ergonomic footwear customized to your delight.", "https://images.pexels.com/photos/345415/pexels-photo-345415.jpeg?cs=srgb&dl=action-air-balance-345415.jpg&fm=jpg", 150000);
         addDefaultProject("Self-Heating Earl Grey Tea", "Just add cool water and the we'll settle the rest for you, delivering a warm cup of decadent earl grey milk tea.", "https://images.pexels.com/photos/229493/pexels-photo-229493.jpeg?cs=srgb&dl=bowl-caffeine-cooking-229493.jpg&fm=jpg", 200000);
         addDefaultProject("Solar Powered Scooters", "Green Eco-friendly Scooters to bring you just where you want", "https://images.pexels.com/photos/1731751/pexels-photo-1731751.jpeg?cs=srgb&dl=close-up-handlebar-scooter-1731751.jpg&fm=jpg", 100000);
+        addDefaultProject("Autonomous Go Kart", "Powered by Deep Learning Algorithms, Racing on a new level", "https://images.pexels.com/photos/821723/pexels-photo-821723.jpeg?cs=srgb&dl=action-asphalt-black-background-821723.jpg&fm=jpg", 300000);
     }
     
     // Function for users to create new project

@@ -8,10 +8,8 @@
   <title>Ethstarter</title>
 
   <!-- Bootstrap -->
-  <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-    crossorigin="anonymous">
 </head>
 
 <body>
@@ -57,19 +55,19 @@
             <h2>Start Your Project Today</h2>
             <div class="form-group">
               <label for="title">Title</label>
-              <input id="titleInput" type="text" class="form-control" placeholder="Name of Project">
+              <input required id="titleInput" type="text" class="form-control" placeholder="Name of Project">
             </div>
             <div class="form-group">
               <label for="description">What's it about?</label>
-              <input id="descriptionInput" type="text" class="form-control" placeholder="What you want EVERYONE to know">
+              <input required id="descriptionInput" type="text" class="form-control" placeholder="What you want EVERYONE to know">
             </div>
             <div class="form-group">
               <label for="target">Crowdfunding Target</label>
-              <input id="targetInput" type="number" class="form-control" placeholder="Enter Ether Value">
+              <input required id="targetInput" type="number" class="form-control" placeholder="Enter Ether Value">
             </div>
             <div class="form-group">
               <label for="title">Image of your Project</label>
-              <input id="urlInput" type="text" class="form-control" placeholder="Enter URL here">
+              <input required id="urlInput" type="text" class="form-control" placeholder="Enter URL here">
             </div>
             <button type="submit" class="btn btn-primary btn-block">Let's start!</button>
           </form>
