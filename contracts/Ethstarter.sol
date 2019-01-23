@@ -18,7 +18,8 @@ contract Ethstarter {
     uint public projectsCounter;
     
     // Create event that takes in projectId for either creation of new project by user or contribution to project. This event will trigger the reloading of page to update content
-    event newAugmentation(uint indexed _projectId);
+    event newContributionNotification(uint indexed _projectId);
+    event newProjectNotification(uint indexed _projectId);
     
     // Constructor which initialises 4 Default projects
     constructor() public payable {
@@ -35,7 +36,7 @@ contract Ethstarter {
         // Create project and store it in the mapping of projectIds to project
         projects[projectsCounter] = Project(projectsCounter, _title, _description, _url, _target, 0);
         // Emit event to trigger reloading of page
-        emit newAugmentation(projectsCounter);         
+        emit newProjectNotification(projectsCounter);         
     }
 
     // Fucntion for initialization of default projects
@@ -75,6 +76,6 @@ contract Ethstarter {
         
         
         // Record event
-        emit newAugmentation(_projectId);
+        emit newContributionNotification(_projectId);
     }
 }

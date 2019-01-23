@@ -36,7 +36,15 @@ App = {
     // Deploy contract; Listen from current block to latest block
     App.contracts.Ethstarter.deployed().then(function(instance) {
       console.log('Watching for events');
-      instance.newAugmentation({}, {
+      instance.newContributionNotification({}, {
+        fromBlock: 0,
+        toBlock: 'latest'
+      }).watch(function(error, event) {
+        console.log("event triggered", event)
+        // Re-render upon new event
+        App.render();
+      });
+      instance.newProjectNotification({}, {
         fromBlock: 0,
         toBlock: 'latest'
       }).watch(function(error, event) {

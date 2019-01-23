@@ -52,13 +52,24 @@ contract("Ethstarter", function(accounts){
         })
     })
 
+    // test event is correctly emitted when new contribution is made by users
+    it("ensure event is emitted when new contribution is made by user to trigger reloading of page", function(){
+        return Ethstarter.deployed().then(function(instance){
+            projectData = instance;
+            projectId = 1
+            return projectData.contribute(projectId, 2000, {value: 2000000000000000000 });
+        }).then(function(receipt){
+            assert.equal(receipt.logs[0].event, "newContributionNotification", "correct event is emitted");
+        });
+    });
+
     // test event is correctly emitted when new project is initiated by users
     it("ensure event is emitted when new project is inititaed to trigger reloading of page", function(){
         return Ethstarter.deployed().then(function(instance){
             projectData = instance;
-            return projectData.addProject("Virtual Reality Roller Coasters", "Life thrills on a roller coaster with your safety assured", "https://images.pexels.com/photos/106155/germany-duisburg-tiger-turtle-106155.jpeg?cs=srgb&dl=architecture-engineering-entertainment-106155.jpg&fm=jpg", 200000);
+            return projectData.addProject("Handcrafted Watch with Smart Features", "The watch that ticks the right boxes", "https://images.pexels.com/photos/9352/glass-time-watch-business.jpg?cs=srgb&dl=clock-hours-minutes-9352.jpg&fm=jpg", 100000);
         }).then(function(receipt){
-            assert.equal(receipt.logs[0].event, "newAugmentation", "correct event is emmitted");
+            assert.equal(receipt.logs[0].event, "newProjectNotification", "correct event is emitted");
         });
     });
 
