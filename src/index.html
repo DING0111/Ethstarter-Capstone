@@ -13,7 +13,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div style='width:82%; margin: auto'>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <a class="navbar-nav mr-auto navbar-brand" href="#">ETHSTARTER</a>
@@ -32,55 +32,71 @@
         </div>
       </div>
   </nav>
-  <div >
+  <div>
 
-    <!-- <div class="row"> -->
-      <!-- <div class="col-lg-12"> -->
 
-        <div id="loader">
-          <p class="text-center">We're getting something exciting ready for you ...</p>
+    <div id="loader">
+      <p id="loading-text">We're getting something exciting ready for you ...</p>
+      <img src='./images/loading.gif' id='loading-gif'>
+    </div>
+
+    <div id="content" style="display: none;">
+
+      <body>
+        <div class="imageParent">
+          <h1 id='title'>ETHSTARTER</h1>
+        </div>
+        <div id='about'>
+          <div id="about-text">          
+            <h1 id="about-title">The Power of Community</h1>
+            <p id="about-para">Ethstarter was born out of a vision that technology has the significant unharnessed potential. It's about bringing together people who believe in causes and want to support these worthy projects.</p>
+          </div>
+          <div id="about-text">          
+            <h1 id="about-title">Technology Harnessed</h1>
+            <p id="about-para">A vision of Blockchain technology bringing our society to crowdfund resources for a projects we believe in</p>
+          </div>
+          <div id="about-text">          
+            <h1 id="about-title">A World Empowered</h1>
+            <p id="about-para">Designing a world we envision. Starting Here, at Ethstarter</p>
+          </div>
         </div>
 
-        <div id="content" style="display: none;">
+        <div id="listProjects">
+        </div>
 
-          <div class="imageParent">
-              <!-- <img class="fullImage" src="https://images.pexels.com/photos/345415/pexels-photo-345415.jpeg?cs=srgb&dl=action-air-balance-345415.jpg&fm=jpg"> -->
-              <h1 id='title'>ETHSTARTER</h1>
-          </div>
-
-          <div id="listProjects">
-          </div>
-
+        <div id="form-div">
           <form class="form-summation" onsubmit="App.createProject(); return false">
-            <h2>Start Your Project Today</h2>
+            <h2 id="form-title">Start Your Project Today</h2>
             <div class="form-group">
               <label for="title">Title</label>
-              <input required id="titleInput" type="text" class="form-control" placeholder="Name of Project">
+              <input required id="titleInput" type="text" class="form-control" placeholder="Name of Project" maxlength="24">
             </div>
             <div class="form-group">
               <label for="description">What's it about?</label>
-              <input required id="descriptionInput" type="text" class="form-control" placeholder="What you want EVERYONE to know">
+              <input required id="descriptionInput" type="text" class="form-control" placeholder="What you want EVERYONE to know"
+                maxlength="70">
             </div>
             <div class="form-group">
               <label for="target">Crowdfunding Target</label>
               <input required id="targetInput" type="number" class="form-control" placeholder="Enter Ether Value">
             </div>
             <div class="form-group">
-              <label for="title">Image of your Project</label>
-              <input required id="urlInput" type="text" class="form-control" placeholder="Enter URL here">
+              <label for="title">High Resolution Image of your Project (Ensure Image Format is correct, Sample Address Shown Below)</label>
+              <p id='form-smalltext'>https://images.pexels.com/photos/345415/pexels-photo-345415.jpeg?cs=srgb&dl=action-air-balance-345415.jpg&fm=jpg
+                  <br>For Google Images, Right Click and Select Copy Image Address.
+              </p>
+              <input required id="urlInput" type="url" class="form-control" placeholder="Enter Image URL">
+            
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Let's start!</button>
+            <button type="submit" class="btn btn-outline-success btn-block" id="submitButton">Let's start!</button>
+            <p style="font-size: 15px; color: #28a745; text-align: center;" id="accountAddress" ></p>
           </form>
-          <p id="accountAddress" class="text-center"></p>
+          
         </div>
-      </div>
     </div>
-  <!-- </div> -->
-  <!-- </div> -->
-
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  </div>
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="js/bootstrap.min.js"></script>
   <script src="js/web3.min.js"></script>
   <script src="js/truffle-contract.js"></script>

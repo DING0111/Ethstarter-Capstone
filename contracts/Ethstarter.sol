@@ -1,6 +1,9 @@
 pragma solidity ^0.5.0;
 
 contract Ethstarter {
+    
+    // initialise circuit breaker variable to be false. If variable is set to true, adding project and contributions functionality will revert as part of safety in designing this system
+    bool private emergencyAlert = false;
     // Create Project struct with variables (add string url)
     struct Project {
         uint id;
@@ -11,6 +14,12 @@ contract Ethstarter {
         uint currentValue;
     }
     
+    modifier emergencyStop {
+        if (emergencyAlert) {
+            revert();
+        }
+        _;
+    }
     // Implement Mapping to retrieve Project based on id
     mapping(uint => Project) public projects;
     
@@ -30,7 +39,7 @@ contract Ethstarter {
     }
     
     // Function for users to create new project
-    function addProject(string memory _title, string memory _description, string memory _url, uint _target) public {
+    function addProject(string memory _title, string memory _description, string memory _url, uint _target) emergencyStop public {
         // Increment number of projects by one
         projectsCounter += 1;
         // Create project and store it in the mapping of projectIds to project
@@ -40,21 +49,25 @@ contract Ethstarter {
     }
 
     // Fucntion for initialization of default projects
-    function addDefaultProject(string memory _title, string memory _description, string memory _url, uint _target) public {
+    function addDefaultProject(string memory _title, string memory _description, string memory _url, uint _target)  private {
         // Increment number of projects by one
         projectsCounter += 1;
         // Create Project and store it in the mapping o projectIds to project
         projects[projectsCounter] = Project(projectsCounter, _title, _description, _url, _target, 0);              
     }
     
-    function contribute(uint _projectId, uint _contributionAmount) public payable {        
+    function contribute(uint _projectId, uint _contributionAmount) emergencyStop public payable {        
         // Check that user has sufficient balance in account (units in finney as solidity does not have floats)
         uint userBalance = msg.sender.balance / 1000000000000000;
         require(userBalance >= _contributionAmount);
         
         // Require that message value is equal to user's contribution account
         uint messageValue = msg.value /1000000000000000;
-        require(messageValue == _contributionAmount);  
+        if (messageValue != _contributionAmount) {
+            emergencyAlert = true;
+            revert();
+        }
+        // require(messageValue == _contributionAmount);  
         
         // Ensure projectId is valid
         require(_projectId > 0 && _projectId <= projectsCounter);
@@ -64,17 +77,13 @@ contract Ethstarter {
         uint projectTarget = projects[_projectId].target;
         if (projectCurrentValue + _contributionAmount > projectTarget) {
             uint excess = projectCurrentValue + _contributionAmount - projectTarget;
-            msg.sender.transfer(excess);
+            msg.sender.transfer(excess * 1000000000000000);
             projects[_projectId].currentValue = projectTarget;
             
         } else {
             // add amount to project
             projects[_projectId].currentValue += _contributionAmount;
         }
-        
-        
-        
-        
         // Record event
         emit newContributionNotification(_projectId);
     }

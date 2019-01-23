@@ -1,9 +1,13 @@
+var state = false,
+
 App = {
   web3Provider: null,
   contracts: {},
   account: '0x0',
+  
 
   init: function() {
+    state = false;
     return App.initWeb3();
   },
 
@@ -42,7 +46,10 @@ App = {
       }).watch(function(error, event) {
         console.log("event triggered", event)
         // Re-render upon new event
-        App.render();
+        if (state== true){
+          App.render();
+        }
+        state = false;
       });
       instance.newProjectNotification({}, {
         fromBlock: 0,
@@ -50,7 +57,10 @@ App = {
       }).watch(function(error, event) {
         console.log("event triggered", event)
         // Re-render upon new event
-        App.render();
+        if (state== true){
+          App.render();
+        }
+        state = false;
       });
     });
   },
@@ -58,6 +68,8 @@ App = {
   render: function() {
     // Instantiate Project Data; variable to hold instance of Ethstarter contract
     var projectData;
+    state = false;
+    
 
     // Empty all the previous values in the form
     $('#listProjects').val('');
@@ -88,6 +100,7 @@ App = {
       // Empty listProjects ID
       var projectLabel = $("#listProjects");
       projectLabel.empty();
+      
 
       // Loop through each project 
       for (var i = 1; i <= projectsCount; i++) {
@@ -99,11 +112,12 @@ App = {
         var urlName = project[3];
         var target = project[4] / 1000;
         var currentValue = project[5] / 1000;
-        console.log("image " + id + " is " + urlName);
+        var percentageCompletion = currentValue / target * 100;
+        percentageCompletion = percentageCompletion + '%';
 
         // var testURL = 'url("https://images.pexels.com/photos/345415/pexels-photo-345415.jpeg?cs=srgb&dl=action-air-balance-345415.jpg&fm=jpg")'
         // Append each project html elements to projectLabel
-        var projectsListing = '<div  style="width: 100%; min-height: 100vh; height: 100vh; background-position: center; background-repeat: no-repeat; background-size: cover; background-image: url(\' '+ urlName + ' \')";><h1 style="text-align: center; padding-top: 40%; "><div style="border: 2px solid black; padding: 20px 40px 20px 40px; background-color: rgba(255,255,255,0.8); width: 40%; margin:auto;">' + title + '</div></h1></div><div style="width: 100%; min-height: 40vh; height: 40vh; background-color: white; padding-top: 80px; padding-left: 70px;";><h1 style="text-transform: uppercase; font-weight: 900;">' + title + '</h1><h2 style="width: 50%; font-size: 20px; font-weight: lighter;">' + description+ '</h2><h2>' + currentValue + '/'  + target + '</h2><h2>target</h2><form onSubmit="App.contributeToProject(); return false;"><input required step=".01" id=' + id + 'input' + ' name="voteNumber" type="number"><button id=' + id + ' class="btn btn-primary">Vote Now</button></form></div>'
+        var projectsListing = '<div  style="width: 100%; min-height: 100vh; height: 100vh; background-position: center; background-repeat: no-repeat; background-size: cover; background-image: url(\' '+ urlName + ' \')";></div><div class="row" style="width: 100%; min-height: 40vh; height: 40vh; background-color: white; padding-top: 60px; padding-left: 70px; padding-bottom: 40px;"><div class="col-sm-8"><h1 style="text-transform: uppercase; font-weight: 800; font-size: 50px;">' + title + '</h1><h2 style="width: 95%; font-size: 33px; font-family: Raleway-Thin;">' + description+ '</h2></div><div class="col-sm-4"><div style="width: 180px"><div id="progressbar" style="background-color: white;border-radius: 13px; padding: 0px;border: 2px solid purple;"><div style="background-color: purple;width:' + percentageCompletion + ';height: 20px;border-radius: 10px;"></div></div><h2 style="font-family: Raleway-Thin; color: purple;">' + currentValue + '/'  + target + '</h2><form onSubmit="App.contributeToProject(); return false;"><input style="margin-top: 15px;" required step=".01" id=' + id + 'input' + ' name="voteNumber" type="number" placeholder="Amount in Ether" class="form-control"><button id=' + id + ' style="margin-top: 3px;" class="btn btn-block btn-danger">Contribute</button></form></div></div></div>'
         projectLabel.append(projectsListing);
         });
       }
@@ -119,13 +133,40 @@ App = {
   // Function to create new project from form entry 
   createProject: function() {
     // Retrieve the individual values of form field into variables; Note that targetInput is multiplied by 1000 to convert ether to finney (solidity code takes in finney due to lack of float data type)
+    state = true;
     var titleInput = $('#titleInput').val();
     var descriptionInput = $('#descriptionInput').val();
     var targetInput = $('#targetInput').val();
     targetInput *= 1000;
     var urlInput = $('#urlInput').val();
     console.log(urlInput);
+
+    function imageExists(url, callback) {
+      var img = new Image();
+      img.onload = function() { callback(true); };
+      img.onerror = function() { callback(false); };
+      img.src = url;
+    }
+  
     
+    function validateImageURL(url)
+      {
+          
+        var imageUrl = url;
+        
+        imageExists(imageUrl, function(exists) {
+          //Show the result
+          if (!exists){
+            alert('Image URL is not valid. Refer to instructions above input field to enter valid image');
+            return;
+          }
+          
+        });
+        
+      }
+    
+    validateImageURL(urlInput);
+
     // Deploy contract
     App.contracts.Ethstarter.deployed().then(function(instance) {
       // Call addProject function
@@ -143,6 +184,7 @@ App = {
   contributeToProject: function() {   
     // Selector to get id of active element to determine which project the user wants to contribute to
     var projectId = $(document.activeElement).attr('id');
+    state = true;
     console.log(projectId);
     // Retrieve value of contribution from input field
     var inputId = projectId + 'input';
