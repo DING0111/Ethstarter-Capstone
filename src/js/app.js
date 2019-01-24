@@ -70,6 +70,18 @@ App = {
     var projectData;
     state = false;
     
+    // $(document).ready(function() {
+  
+    //   var scrollLink = $('.scroll');
+      
+    //   // Smooth scrolling
+    //   scrollLink.click(function(e) {
+    //     e.preventDefault();
+    //     $('body,html').animate({
+    //       scrollTop: $(this.hash).offset().top
+    //     }, 2000 );
+    //   });
+    // });
 
     // Empty all the previous values in the form
     $('#listProjects').val('');
@@ -117,7 +129,7 @@ App = {
 
         // var testURL = 'url("https://images.pexels.com/photos/345415/pexels-photo-345415.jpeg?cs=srgb&dl=action-air-balance-345415.jpg&fm=jpg")'
         // Append each project html elements to projectLabel
-        var projectsListing = '<div  style="width: 100%; min-height: 100vh; height: 100vh; background-position: center; background-repeat: no-repeat; background-size: cover; background-image: url(\' '+ urlName + ' \')";></div><div class="row" style="width: 100%; min-height: 40vh; height: 40vh; background-color: white; padding-top: 60px; padding-left: 70px; padding-bottom: 40px;"><div class="col-sm-8"><h1 style="text-transform: uppercase; font-weight: 800; font-size: 50px;">' + title + '</h1><h2 style="width: 95%; font-size: 33px; font-family: Raleway-Thin;">' + description+ '</h2></div><div class="col-sm-4"><div style="width: 180px"><div id="progressbar" style="background-color: white;border-radius: 13px; padding: 0px;border: 2px solid purple;"><div style="background-color: purple;width:' + percentageCompletion + ';height: 20px;border-radius: 10px;"></div></div><h2 style="font-family: Raleway-Thin; color: purple;">' + currentValue + '/'  + target + '</h2><form onSubmit="App.contributeToProject(); return false;"><input style="margin-top: 15px;" required step=".01" id=' + id + 'input' + ' name="voteNumber" type="number" placeholder="Amount in Ether" class="form-control"><button id=' + id + ' style="margin-top: 3px;" class="btn btn-block btn-danger">Contribute</button></form></div></div></div>'
+        var projectsListing = '<div  style="width: 100%; height: 76vh; background-position: center; background-repeat: no-repeat; background-size: cover; background-image: url(\' '+ urlName + ' \')";></div><div class="row" style="width: 100%; min-height: 40vh; height: 40vh; background-color: white; padding-top: 60px; padding-left: 70px; padding-bottom: 40px;"><div class="col-sm-8"><h1 style="text-transform: uppercase; font-weight: 800; font-size: 50px;">' + title + '</h1><h2 style="width: 95%; font-size: 33px; font-family: Raleway-Thin;">' + description+ '</h2></div><div class="col-sm-4"><div style="width: 180px"><div id="progressbar" style="background-color: white;border-radius: 13px; padding: 0px;border: 2px solid purple;"><div style="background-color: purple;width:' + percentageCompletion + ';height: 20px;border-radius: 10px;"></div></div><h2 style="font-family: Raleway-Thin; color: purple;">' + currentValue + '/'  + target + '</h2><form onSubmit="App.contributeToProject(); return false;"><input style="margin-top: 15px;" required step=".01" id=' + id + 'input' + ' name="voteNumber" type="number" placeholder="Amount in Ether" class="form-control"><button id=' + id + ' style="margin-top: 3px;" class="btn btn-block btn-danger">Contribute</button></form></div></div></div>'
         projectLabel.append(projectsListing);
         });
       }

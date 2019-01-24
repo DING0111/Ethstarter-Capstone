@@ -75,7 +75,7 @@ html, body {
 #form-div {
     background-color: black;
     width: 100%;
-    padding-top: 120px;
+    padding-top: 70px;
     
 }
 
@@ -84,12 +84,12 @@ html, body {
 }
 
 #submitButton {
-    margin-bottom: 250px;
+    margin-bottom: 150px;
 }
 
 #about {
     width: 100%;
-    height: 140vh;
+    height: 160vh;
     background-color: black;
     padding: 120px 40px 150px 200px;
 }
