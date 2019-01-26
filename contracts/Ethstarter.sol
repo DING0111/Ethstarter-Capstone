@@ -1,8 +1,11 @@
 pragma solidity ^0.5.0;
+import "./SafeMath.sol";
 
 contract Ethstarter {
+    // Import SafeMath library to prevent integer overflow and
+    using SafeMath for uint;
     
-    // initialise circuit breaker variable to be false. If variable is set to true, adding project and contributions functionality will revert as part of safety in designing this system
+    // Initialise circuit breaker variable to be false. If variable is set to true, adding project and contributions functionality will revert as part of safety in designing this system
     bool private emergencyAlert = false;
     // Create Project struct with variables (add string url)
     struct Project {
@@ -14,6 +17,7 @@ contract Ethstarter {
         uint currentValue;
     }
     
+    // Declare modifier to implment circuit breaker when funds contributed does not match msg.value
     modifier emergencyStop {
         if (emergencyAlert) {
             revert();
@@ -41,7 +45,7 @@ contract Ethstarter {
     // Function for users to create new project
     function addProject(string memory _title, string memory _description, string memory _url, uint _target) emergencyStop public {
         // Increment number of projects by one
-        projectsCounter += 1;
+        projectsCounter = projectsCounter.add(1);
         // Create project and store it in the mapping of projectIds to project
         projects[projectsCounter] = Project(projectsCounter, _title, _description, _url, _target, 0);
         // Emit event to trigger reloading of page
@@ -51,23 +55,23 @@ contract Ethstarter {
     // Fucntion for initialization of default projects
     function addDefaultProject(string memory _title, string memory _description, string memory _url, uint _target)  private {
         // Increment number of projects by one
-        projectsCounter += 1;
+        projectsCounter = projectsCounter.add(1);
         // Create Project and store it in the mapping o projectIds to project
         projects[projectsCounter] = Project(projectsCounter, _title, _description, _url, _target, 0);              
     }
     
-    function contribute(uint _projectId, uint _contributionAmount) emergencyStop public payable {        
+    function contribute(uint _projectId, uint _contributionAmount) emergencyStop public payable returns (uint endNumber) {        
         // Check that user has sufficient balance in account (units in finney as solidity does not have floats)
-        uint userBalance = msg.sender.balance / 1000000000000000;
+        uint userBalance = msg.sender.balance.div(1000000000000000);
         require(userBalance >= _contributionAmount);
         
         // Require that message value is equal to user's contribution account
-        uint messageValue = msg.value /1000000000000000;
+        uint messageValue = msg.value.div(1000000000000000);
         if (messageValue != _contributionAmount) {
+            // Set emergencyAlert to true as part of circuit breaker design. Terminates ability to carry out important functions: add project and contribute to prevent further errors
             emergencyAlert = true;
-            revert();
+            return(1);
         }
-        // require(messageValue == _contributionAmount);  
         
         // Ensure projectId is valid
         require(_projectId > 0 && _projectId <= projectsCounter);
@@ -75,16 +79,18 @@ contract Ethstarter {
         // Check if user's contribution exceeds target
         uint projectCurrentValue = projects[_projectId].currentValue;
         uint projectTarget = projects[_projectId].target;
-        if (projectCurrentValue + _contributionAmount > projectTarget) {
-            uint excess = projectCurrentValue + _contributionAmount - projectTarget;
-            msg.sender.transfer(excess * 1000000000000000);
+        uint sumOCurrentValueAndContribution = projectCurrentValue.add(_contributionAmount);
+        if (sumOCurrentValueAndContribution > projectTarget) {
+            uint excess = sumOCurrentValueAndContribution.sub(projectTarget);
+            msg.sender.transfer(excess.mul(1000000000000000));
             projects[_projectId].currentValue = projectTarget;
             
         } else {
             // add amount to project
-            projects[_projectId].currentValue += _contributionAmount;
+            projects[_projectId].currentValue = projects[_projectId].currentValue.add(_contributionAmount);
         }
         // Record event
         emit newContributionNotification(_projectId);
+        return(0);
     }
 }
