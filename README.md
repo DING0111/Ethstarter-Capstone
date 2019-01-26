@@ -12,13 +12,13 @@
  
  
  ## Deployment
- Ethstarter is best deployed in a Virtual Machine running Ubuntu 1804, with Ganache-CLI running on port 8545. These are the steps you'll need to get it up and running. Before beginning, you will need to open your default browser, log into Metamask and Configure your network to localhost 8545
+ Ethstarter is best deployed in a Virtual Machine running Ubuntu 1804, with Ganache-CLI running on port 8545. These are the steps you'll need to get it up and running.
 1. *git clone `https://github.com/DING0111/Ethstarter-Capstone.git`*
 2. In the folder itself, run *ganache-cli*
 3. *truffle migrate --reset*
 4. *npm run dev*
 
-This will launch your browser (optimal viewing on Google Chrome). You can now freely interact with the contract through the user interface and have the ability to list your own crowdfunding projects and contribute test ether to the projects.
+This will launch your browser (optimal viewing on Google Chrome). Connect your Metamask Network to localhost 8545 and import your seed phrase generated from ganache-cli. You can now freely interact with the contract through the user interface and have the ability to list your own crowdfunding projects and contribute test ether to the projects.
 
 ## Testing
 The following tests have been implemented to ensure that the app is running as per expected. The following are the functions of each test:
