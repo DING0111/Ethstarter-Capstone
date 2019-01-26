@@ -31,3 +31,6 @@ The following tests have been implemented to ensure that the app is running as p
 6.	Test that correct amount of ether is contributed to the specified project.
 
 To run these tests, enter the command into the command line: ***truffle test***
+
+## Deployment to Ropsten
+The Contract has been deployed to the Ropsten Test Net. To interact with the contract deployed on the test net, visit tinyurl.com/ethstarter-capstone and ensure your metamask network is set to ropsten. Should you need test ether, head to the ropsten faucet to collect it.
