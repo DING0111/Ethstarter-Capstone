@@ -1,5 +1,5 @@
 # ETHSTARTER
- Ethstarter was born out of a vision that technology has the significant unharnessed potential. Ethstarter is about bringing together people who believe in causes and want to support these worthy projects.
+ Ethstarter was born out of a vision that technology has the significant unharnessed potential. Ethstarter is about bringing together people who believe in causes and want to support these worthy projects. It's about a common future of the future we can build together.
 
  ![ETHSTARTER](./src/images/Ethstarter.PNG)
  
